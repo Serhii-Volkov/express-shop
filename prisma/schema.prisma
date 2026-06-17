@@ -1,0 +1,73 @@
+
+
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+
+}
+
+enum Role {
+  CUSTOMER
+  ADMIN
+}
+
+
+model User { 
+  id           String   @id @default(uuid()) 
+  firstName    String?  @map("first_Name")
+  lastName     String?  @map("last_Name")
+  email        String   @unique
+  password     String? 
+  role         Role     @default(CUSTOMER)
+  isVerified   Boolean  @default(false) @map("is_verified")
+
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  refreshTokens RefreshToken[]
+  otp Otp?
+  @@map("users")
+} 
+
+model RefreshToken {
+  id           String @id @default(uuid())
+  token        String @unique
+  userId       String @map("user_id")
+  user         User  @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+
+  @@map("refresh_tokens")
+}
+
+model Otp {
+  id           String @id @default(uuid())
+  userId       String @map("user_id") @unique()
+  user         User  @relation(fields: [userId], references: [id], onDelete: Cascade)
+  cell         String
+  details      String?
+  otp          String
+  expiresAt    DateTime
+
+  createdAt    DateTime      @default(now())
+  @@map("otps")
+}
+
+model Category {
+  id           String   @id @default(uuid())
+  name         String   @unique
+  slug         String   @unique
+  description  String?
+  imageUrl     String?
+
+
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@map("categories")
+}

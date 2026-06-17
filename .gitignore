@@ -1,0 +1,6 @@
+node_modules/
+.env
+dist/
+
+# Prisma generated files (если действительно генерируются сюда)
+generated/prisma/

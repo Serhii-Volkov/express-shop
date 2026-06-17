@@ -1,0 +1,133 @@
+2026-06-13 10:54:33:5433 [37mdebug[39m: [37mtest[39m
+2026-06-13 10:54:33:5433 [32minfo[39m: [32mtest[39m
+2026-06-13 10:54:33:5433 [32minfo[39m: [32mServer running on http://localhost:7007[39m
+2026-06-13 10:54:50:5450 [37mdebug[39m: [37mtest[39m
+2026-06-13 10:54:50:5450 [32minfo[39m: [32mtest[39m
+2026-06-13 10:54:50:5450 [32minfo[39m: [32mServer running on http://localhost:7007[39m
+{"level":"info","message":"test","timestamp":"2026-06-13T07:55:17.036Z"}
+{"level":"info","message":"Server running on http://localhost:7007","timestamp":"2026-06-13T07:55:17.040Z"}
+2026-06-13 10:55:58:5558 [37mdebug[39m: [37mtest[39m
+2026-06-13 10:55:58:5558 [32minfo[39m: [32mtest[39m
+2026-06-13 10:55:58:5558 [32minfo[39m: [32mServer running on http://localhost:7007[39m
+2026-06-13 10:56:48:5648 [37mdebug[39m: [37mtest[39m
+2026-06-13 10:56:48:5648 [32minfo[39m: [32mtest[39m
+2026-06-13 10:56:48:5648 [31merror[39m: [31mLOGGER ERROR TEST[39m
+2026-06-13 10:56:48:5648 [32minfo[39m: [32mServer running on http://localhost:7007[39m
+2026-06-13 10:56:53:5653 [37mdebug[39m: [37mtest[39m
+2026-06-13 10:56:53:5653 [32minfo[39m: [32mtest[39m
+2026-06-13 10:56:53:5653 [31merror[39m: [31mLOGGER ERROR TEST[39m
+2026-06-13 10:56:53:5653 [33mwarn[39m: [33mLOGGER WARNING TEST[39m
+2026-06-13 10:56:53:5653 [35mhttp[39m: [35mLOGGER HTTP TEST[39m
+2026-06-13 10:56:53:5653 [32minfo[39m: [32mServer running on http://localhost:7007[39m
+{"level":"info","message":"test","timestamp":"2026-06-13T07:57:23.209Z"}
+{"level":"error","message":"LOGGER ERROR TEST","timestamp":"2026-06-13T07:57:23.210Z"}
+{"level":"warn","message":"LOGGER WARNING TEST","timestamp":"2026-06-13T07:57:23.210Z"}
+{"level":"info","message":"Server running on http://localhost:7007","timestamp":"2026-06-13T07:57:23.214Z"}
+{"level":"info","message":"Server running on http://localhost:7007","timestamp":"2026-06-13T07:59:14.409Z"}
+2026-06-13 11:08:41:841 [32minfo[39m: [32mServer running on http://localhost:7007[39m
+2026-06-13 11:16:50:1650 [32minfo[39m: [32mServer running on http://localhost:7007[39m
+2026-06-13 11:17:21:1721 [32minfo[39m: [32mServer running on http://localhost:7007[39m
+2026-06-13 11:24:40:2440 [32minfo[39m: [32mServer running on http://localhost:7007[39m
+2026-06-13 11:27:12:2712 [32minfo[39m: [32mServer running on http://localhost:7007[39m
+2026-06-13 11:48:04:484 [32minfo[39m: [32mServer running on http://localhost:7007[39m
+2026-06-13 11:56:28:5628 [32minfo[39m: [32mServer running on http://localhost:7007[39m
+2026-06-13 12:00:08:08 [32minfo[39m: [32mServer running on http://localhost:7007[39m
+2026-06-13 12:01:41:141 [32minfo[39m: [32mServer running on http://localhost:7007[39m
+2026-06-13 12:01:48:148 [32minfo[39m: [32mServer running on http://localhost:7007[39m
+2026-06-13 12:02:56:256 [32minfo[39m: [32mServer running on http://localhost:7007[39m
+2026-06-13 12:08:20:820 [32minfo[39m: [32mServer running on http://localhost:7007[39m
+2026-06-13 12:08:38:838 [32minfo[39m: [32mServer running on http://localhost:7007[39m
+2026-06-13 12:08:59:859 [32minfo[39m: [32mServer running on http://localhost:7007[39m
+2026-06-13 12:09:22:922 [32minfo[39m: [32mServer running on http://localhost:7007[39m
+2026-06-13 12:18:13:1813 [32minfo[39m: [32mServer running on http://localhost:7007[39m
+2026-06-13 12:25:32:2532 [32minfo[39m: [32mServer running on http://localhost:7007[39m
+2026-06-13 12:27:34:2734 [32minfo[39m: [32mServer running on http://localhost:7007[39m
+2026-06-13 12:28:08:288 [32minfo[39m: [32mServer running on http://localhost:7007[39m
+2026-06-13 14:17:48:1748 [32minfo[39m: [32mServer running on http://localhost:7007[39m
+2026-06-13 14:19:31:1931 [32minfo[39m: [32mServer running on http://localhost:7007[39m
+2026-06-13 14:25:38:2538 [32minfo[39m: [32mServer running on http://localhost:7007[39m
+2026-06-13 14:29:02:292 [32minfo[39m: [32mServer running on http://localhost:7007[39m
+2026-06-13 14:29:30:2930 [32minfo[39m: [32mServer running on http://localhost:7007[39m
+2026-06-13 14:36:16:3616 [32minfo[39m: [32mServer running on http://localhost:7007[39m
+2026-06-13 14:38:30:3830 [32minfo[39m: [32mServer running on http://localhost:7007[39m
+2026-06-13 14:42:21:4221 [32minfo[39m: [32mServer running on http://localhost:7007[39m
+2026-06-13 14:50:23:5023 [32minfo[39m: [32mServer running on http://localhost:7007[39m
+2026-06-13 14:53:55:5355 [32minfo[39m: [32mServer running on http://localhost:7007[39m
+2026-06-13 14:56:34:5634 [32minfo[39m: [32mServer running on http://localhost:7007[39m
+2026-06-13 14:56:59:5659 [32minfo[39m: [32mServer running on http://localhost:7007[39m
+2026-06-13 14:57:51:5751 [32minfo[39m: [32mServer running on http://localhost:7007[39m
+2026-06-13 15:15:01:151 [32minfo[39m: [32mServer running on http://localhost:7007[39m
+2026-06-13 15:50:20:5020 [32minfo[39m: [32mServer running on http://localhost:7007[39m
+2026-06-13 15:55:38:5538 [32minfo[39m: [32mServer running on http://localhost:7007[39m
+2026-06-14 12:43:58:4358 [32minfo[39m: [32mServer running on http://localhost:7007[39m
+2026-06-14 12:47:31:4731 [32minfo[39m: [32mServer running on http://localhost:7007[39m
+2026-06-14 12:53:32:5332 [32minfo[39m: [32mServer running on http://localhost:7007[39m
+2026-06-14 17:54:37:5437 [32minfo[39m: [32mServer running on http://localhost:7007[39m
+2026-06-14 17:57:15:5715 [32minfo[39m: [32mServer running on http://localhost:7007[39m
+2026-06-14 18:20:43:2043 [32minfo[39m: [32mServer running on http://localhost:7007[39m
+2026-06-14 18:22:28:2228 [32minfo[39m: [32mServer running on http://localhost:7007[39m
+2026-06-14 18:22:35:2235 [32minfo[39m: [32mServer running on http://localhost:7007[39m
+2026-06-14 18:23:33:2333 [32minfo[39m: [32mServer running on http://localhost:7007[39m
+2026-06-14 18:23:33:2333 [32minfo[39m: [32mServer running on http://localhost:7007[39m
+2026-06-14 18:26:42:2642 [32minfo[39m: [32mServer running on http://localhost:7007[39m
+2026-06-14 18:26:42:2642 [32minfo[39m: [32mServer running on http://localhost:7007[39m
+2026-06-14 18:28:27:2827 [32minfo[39m: [32mServer running on http://localhost:7007[39m
+2026-06-14 18:28:27:2827 [32minfo[39m: [32mServer running on http://localhost:7007[39m
+2026-06-14 18:30:39:3039 [32minfo[39m: [32mServer running on http://localhost:7007[39m
+2026-06-14 18:49:55:4955 [32minfo[39m: [32mServer running on http://localhost:7007[39m
+2026-06-14 18:51:39:5139 [32minfo[39m: [32mServer running on http://localhost:7007[39m
+2026-06-14 18:51:54:5154 [32minfo[39m: [32mServer running on http://localhost:7007[39m
+2026-06-14 18:54:30:5430 [32minfo[39m: [32mServer running on http://localhost:7007[39m
+2026-06-14 18:55:00:550 [32minfo[39m: [32mServer running on http://localhost:7007[39m
+2026-06-14 18:57:09:579 [32minfo[39m: [32mServer running on http://localhost:7007[39m
+2026-06-14 18:57:53:5753 [32minfo[39m: [32mServer running on http://localhost:7007[39m
+2026-06-14 18:59:33:5933 [32minfo[39m: [32mServer running on http://localhost:7007[39m
+2026-06-14 19:00:26:026 [32minfo[39m: [32mServer running on http://localhost:7007[39m
+2026-06-14 19:02:24:224 [32minfo[39m: [32mServer running on http://localhost:7007[39m
+2026-06-14 19:35:40:3540 [32minfo[39m: [32mServer running on http://localhost:7007[39m
+2026-06-14 19:35:55:3555 [32minfo[39m: [32mServer running on http://localhost:7007[39m
+2026-06-14 19:38:16:3816 [32minfo[39m: [32mServer running on http://localhost:7007[39m
+2026-06-14 19:41:08:418 [32minfo[39m: [32mServer running on http://localhost:7007[39m
+2026-06-14 19:43:05:435 [32minfo[39m: [32mServer running on http://localhost:7007[39m
+2026-06-14 19:44:10:4410 [32minfo[39m: [32mServer running on http://localhost:7007[39m
+2026-06-14 19:45:44:4544 [32minfo[39m: [32mServer running on http://localhost:7007[39m
+2026-06-14 19:48:43:4843 [32minfo[39m: [32mServer running on http://localhost:7007[39m
+2026-06-14 19:52:58:5258 [32minfo[39m: [32mServer running on http://localhost:7007[39m
+2026-06-14 20:17:16:1716 [32minfo[39m: [32mServer running on http://localhost:7007[39m
+2026-06-14 20:25:45:2545 [32minfo[39m: [32mServer running on http://localhost:7007[39m
+2026-06-14 20:26:41:2641 [32minfo[39m: [32mServer running on http://localhost:7007[39m
+2026-06-14 20:27:00:270 [32minfo[39m: [32mServer running on http://localhost:7007[39m
+2026-06-15 20:22:53:2253 [32minfo[39m: [32mServer running on http://localhost:7007[39m
+2026-06-15 20:31:15:3115 [32minfo[39m: [32mServer running on http://localhost:7007[39m
+2026-06-15 21:10:16:1016 [32minfo[39m: [32mServer running on http://localhost:7007[39m
+2026-06-15 21:12:32:1232 [32minfo[39m: [32mServer running on http://localhost:7007[39m
+2026-06-15 21:15:29:1529 [32minfo[39m: [32mServer running on http://localhost:7007[39m
+2026-06-15 21:16:06:166 [32minfo[39m: [32mServer running on http://localhost:7007[39m
+2026-06-15 21:17:55:1755 [32minfo[39m: [32mServer running on http://localhost:7007[39m
+2026-06-15 21:18:48:1848 [32minfo[39m: [32mServer running on http://localhost:7007[39m
+2026-06-15 21:20:07:207 [32minfo[39m: [32mServer running on http://localhost:7007[39m
+2026-06-16 21:34:19:3419 [32minfo[39m: [32mServer running on http://localhost:7007[39m
+2026-06-17 19:37:19:3719 [32minfo[39m: [32mServer running on http://localhost:7007[39m
+2026-06-17 19:52:02:522 [32minfo[39m: [32mServer running on http://localhost:7007[39m
+2026-06-17 19:59:30:5930 [32minfo[39m: [32mServer running on http://localhost:7007[39m
+2026-06-17 20:20:23:2023 [32minfo[39m: [32mServer running on http://localhost:7007[39m
+2026-06-17 20:39:09:399 [32minfo[39m: [32mServer running on http://localhost:7007[39m
+2026-06-17 20:47:01:471 [32minfo[39m: [32mServer running on http://localhost:7007[39m
+2026-06-17 20:47:27:4727 [32minfo[39m: [32mServer running on http://localhost:7007[39m
+2026-06-17 20:57:53:5753 [32minfo[39m: [32mServer running on http://localhost:7007[39m
+2026-06-17 21:04:00:40 [32minfo[39m: [32mServer running on http://localhost:7007[39m
+2026-06-17 21:04:52:452 [32minfo[39m: [32mServer running on http://localhost:7007[39m
+2026-06-17 21:09:16:916 [32minfo[39m: [32mServer running on http://localhost:7007[39m
+2026-06-17 21:10:01:101 [32minfo[39m: [32mServer running on http://localhost:7007[39m
+2026-06-17 21:14:05:145 [32minfo[39m: [32mServer running on http://localhost:7007[39m
+2026-06-17 21:16:51:1651 [32minfo[39m: [32mServer running on http://localhost:7007[39m
+2026-06-17 21:18:26:1826 [32minfo[39m: [32mServer running on http://localhost:7007[39m
+2026-06-17 21:20:46:2046 [32minfo[39m: [32mServer running on http://localhost:7007[39m
+2026-06-17 21:23:40:2340 [32minfo[39m: [32mServer running on http://localhost:7007[39m
+2026-06-17 21:51:10:5110 [32minfo[39m: [32mServer running on http://localhost:7007[39m
+2026-06-17 21:51:34:5134 [32minfo[39m: [32mServer running on http://localhost:7007[39m
+2026-06-17 21:51:58:5158 [32minfo[39m: [32mServer running on http://localhost:7007[39m
+2026-06-17 21:52:31:5231 [32minfo[39m: [32mServer running on http://localhost:7007[39m
+2026-06-17 21:54:04:544 [32minfo[39m: [32mServer running on http://localhost:7007[39m
+2026-06-17 21:54:07:547 [32minfo[39m: [32mServer running on http://localhost:7007[39m
+2026-06-17 21:55:00:550 [32minfo[39m: [32mServer running on http://localhost:7007[39m
