@@ -2,13 +2,13 @@ import { Request, Response } from "express"
 import {prisma} from '../../lib/prisma'
 import bcrypt from 'bcryptjs'
 import {generateAccessToken, generateRefreshToken} from "../../utils/jwt"
-import {setAuthCookies} from "../../utils/cookie"
+import {saveUserIdCookie, setAuthCookies} from "../../utils/cookie"
 import { ApiError } from "../../error/api.error"
-import { AuthenticatedRequest } from "./types/auth.type"
-import crypto from 'crypto'
+import { AuthenticatedRequest } from "@src/types/auth.type"
 import {verifyRefreshToken} from "../../utils/jwt"
 import { JwtPayload } from "jsonwebtoken"
-import { mailOptions, transporter } from "@src/config/nodemailer.config"
+import {createOtp, generateOtp, sendOtp} from "../otp/otp.utils"
+
 
 
 export const register = async(req: Request, res: Response) => {
@@ -30,40 +30,23 @@ export const register = async(req: Request, res: Response) => {
                 password: hashPassword
             }
         })
-
-        const accessToken = generateAccessToken({sub: user.id, email: user.email, role: user.role})
-        const refreshToken = generateRefreshToken(user.id)
         
-        setAuthCookies(res, accessToken, refreshToken)
-        await prisma.refreshToken.create({data: {
-            userId: user.id,
-            token: refreshToken,
-        }})
+        const otpRecord = await createOtp({
+            userId: user.id, 
+            aim: 'Verify email', 
+            details: 'Email confirmation for website registration.', 
+            otp: generateOtp(), expiresAt: new Date(Date.now() + 10 * 60 * 1000)
+        })
 
-        const otpToken = crypto.randomInt(100000, 999999).toString()
+        sendOtp(user.email, otpRecord.aim, otpRecord.otp)
+       
 
-        const otp = await prisma.otp.create({data: {
-            userId: user.id,
-            cell: 'Verify your email',
-            details: 'Please verify your email by clicking the link in the email we sent you.',
-            otp: await bcrypt.hash(otpToken, 10),
-            expiresAt: new Date(Date.now() + 10 * 60 * 1000) // 10 minutes from now
-        }})
-
-        const details = `Your OTP code is ${otpToken}. It will expire in 10 minutes.`
-
-        await transporter.sendMail(mailOptions(user.email, otp.cell, details), (error, info) => {
-            if (error) {
-                console.error('Error sending email:', error);
-            } else {
-                console.log('Email sent:', info.response);
-            }
-        });
+       saveUserIdCookie(res, user.id)
 
         return res.status(201).json({message: "User created", success: true })
 
     } catch (e) {
-        throw ApiError.Internal('Server error', e)
+        return res.status(500).json({message: 'Server error', error: e})
     }
     
 }
@@ -75,17 +58,17 @@ export const login = async(req: Request, res: Response) => {
         const user = await prisma.user.findUnique({where: {email}})
 
         if(!user) {
-            throw ApiError.NotFound('Пользователь c таким email отсутствует')
+            return res.status(404).json({message: 'Пользователь c таким email отсутствует'})
         }
 
         if(!user.password) {
-            throw ApiError.Conflict('Пользователь зарегистрирован через стороний сервис например Google')
+            return res.status(409).json({message: 'Пользователь зарегистрирован через стороний сервис например Google'})
         }
 
         const isValidePassword = await bcrypt.compare(password, user.password)
 
         if(!isValidePassword) {
-            throw ApiError.Unauthorized('Неправильный пароль')
+            return res.status(401).json({message: 'Неправильный пароль'})
         }
 
         const accessToken = generateAccessToken({sub: user.id, email: user.email, role: user.role})
@@ -101,7 +84,7 @@ export const login = async(req: Request, res: Response) => {
 
 
     } catch (e) {
-        throw ApiError.Internal('Server error', e)
+        return res.status(500).json({message: 'Server error', error: e})
     }
 }
 
@@ -109,97 +92,87 @@ export const getMe = async(req: AuthenticatedRequest, res: Response) => {
     try{
         const user = req.user
         if(!user) {
-            throw ApiError.Unauthorized('Пользователь не авторизован')
+            return res.status(404).json({message: 'Пользователь не найден'})
         }
         return res.json(user)
     } catch (e) {
-        throw ApiError.Internal('Server error', e)
+        return res.status(500).json({message: 'Server error', error: e})
     }
 }
 
 
-export const verify = async(req: AuthenticatedRequest, res: Response) => {
-    try{
-        const userId = req.user?.id
-        const {otpToken} = req.body
-
-        const otp = await prisma.otp.findUnique({where: {userId: userId}})
-
-        if(!otp) {
-            throw ApiError.NotFound('OTP не найден')
-        }
-
-        if(otp.expiresAt < new Date()) {
-            throw ApiError.BadRequest('OTP код истек')
-        }
-
-        const isValidToken = await bcrypt.compare(otpToken, otp.otp)
-        if(!isValidToken) {
-            throw ApiError.BadRequest('Невалидный otp код')
-        }
-
-        await prisma.user.update({where: {id: userId}, data: {
-            isVerified: true
-        }})
-
-       return res.status(200).json({message: "Email validate", success: true})
-
-    } catch (e) {
-        throw ApiError.Internal('Server error', e)
-    }
-}
 
 
-export const refresh = async(req: Request, res: Response) => {
 
-    try{
-        const refreshToken = req.cookies.refreshToken
-        if(!refreshToken) {
-            throw ApiError.Unauthorized('Невалидный RefreshToken', 'У пользователя нет токена')
-        }
-        const payload = verifyRefreshToken(refreshToken) as JwtPayload 
-        if(!payload) {
-            throw ApiError.Unauthorized('Невалидный RefreshToken', 'Токен не валиден')
-        }
+//export const refresh = async(req: Request, res: Response) => {
+//
+//    try{
+//        const refreshToken = req.cookies.refreshToken
+//        if(!refreshToken) {
+//            throw ApiError.Unauthorized('Невалидный RefreshToken', 'У пользователя нет токена')
+//        }
+//        const payload = verifyRefreshToken(refreshToken) as JwtPayload 
+//        if(!payload) {
+//            throw ApiError.Unauthorized('Невалидный RefreshToken', 'Токен не валиден')
+//        }
+//
+//        const userId = payload.sub as string
+//       
+//        const user = await prisma.user.findUnique({where: {id: userId}})
+//
+//        if(!user) {
+//            throw ApiError.Unauthorized('Невалидный RefreshToken', "Пользователь с таким id нету в базе даніх")
+//        }
+//
+//        const token = await prisma.refreshToken.findUnique({where: {token: refreshToken, isUsed: false}})
+//        if(!token) {
+//            res.clearCookie('accessToken')
+//            res.clearCookie('refreshToken')
+//            throw ApiError.Unauthorized('Невалидный RefreshToken', "Пользователь с таким id нету в базе даніх")
+//        }
+//        await prisma.refreshToken.update({where: {token: refreshToken}, data: {isUsed: true}})
+//        const newAccessToken = generateAccessToken({sub: user.id, email: user.email, role: user.role})
+//        const newRefreshToken = generateRefreshToken(user.id)
+//
+//         setAuthCookies(res, newAccessToken, newRefreshToken)
+//         return res.status(200).json({message: "Токен обновлен", success: true})
+//    } catch (e) {
+//        throw ApiError.Internal('Server error', e)
+//    }
+//}
 
-        const userId = payload.sub as string
-        if(!userId) {
-            throw ApiError.Unauthorized('Невалидный RefreshToken', 'Токен не валиден')
-        }
-        const user = await prisma.user.findUnique({where: {id: userId}})
-
-        if(!user) {
-            throw ApiError.Unauthorized('Невалидный RefreshToken', "Пользователь с таким id нету в базе даніх")
-        }
-
-        const newAccessToken = generateAccessToken({sub: user.id, email: user.email, role: user.role})
-        const newRefreshToken = generateRefreshToken(user.id)
-
-         setAuthCookies(res, newAccessToken, newRefreshToken)
-         return res.status(200).json({message: "Токен обновлен", success: true})
-    } catch (e) {
-        throw ApiError.Internal('Server error', e)
-    }
-}
-
-export const logout = async(req: AuthenticatedRequest, res: Response) => {
-    try{
+export const logout = async (req: AuthenticatedRequest, res: Response) => {
+    try {
         const refreshToken = req.cookies.refreshToken
 
-        if(!refreshToken) {
-            try {
-                const payload = verifyRefreshToken(refreshToken)
-            } catch {
-                //ignore
-            }
-            
-            res.clearCookie('accessToken')
-            res.clearCookie('refreshToken')
-            return res.status(204).json({message: "Выход из системы", success: true})
+        if (!refreshToken) {
+            return res.status(400).json({
+                message: "Нет токена для выхода"
+            })
         }
 
+        try {
+            verifyRefreshToken(refreshToken)
+
+            // например:
+            // await tokenService.removeRefreshToken(refreshToken)
+
+        } catch {
+            // токен невалидный — всё равно очищаем cookie
+        }
+
+        res.clearCookie("accessToken")
+        res.clearCookie("refreshToken")
+
+        return res.status(200).json({
+            message: "Выход из системы",
+            success: true
+        })
 
     } catch (e) {
-        throw ApiError.Internal('Server error', e)
+        return res.status(500).json({
+            message: "Server error",
+            error: e
+        })
     }
 }

@@ -27,6 +27,27 @@ const getRefreshCookieOptions = () => {
     }
 }
 
+const getUserIdCookieOptions = () => {
+    const isProd = process.env.NODE_ENV === 'production'
+
+    return {
+        httpOnly: true,
+        secure: isProd,
+        sameSite: 'strict' as const,
+        maxAge: 30 * 24 * 60 * 60 * 1000, // 30 days  
+    }
+}
+
+export const saveUserIdCookie = (res: Response, userId: string) => {
+    const cookieName = process.env.USER_ID_COOKIE_NAME
+
+    if(!cookieName) {
+        throw new Error('USER_ID_COOKIE_NAME is not set')
+    }
+
+    res.cookie(cookieName, userId, getUserIdCookieOptions())
+}
+
 export const setAuthCookies = (res: Response, accessToken: string, refreshToken: string) => {
     const accessCookieName = process.env.ACCESS_COOKIE_NAME
     const refreshCookieName = process.env.REFRESH_COOKIE_NAME

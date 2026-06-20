@@ -10,7 +10,7 @@ export const getAllCategories = async(req: Request, res: Response) => {
          
         return res.status(200).json({data:{categories}})
     } catch (e) {
-        throw ApiError.Internal('Server error')
+        return res.status(500).json({message: 'Server error'})
     }
 }
 
@@ -19,17 +19,17 @@ export const getCategoryById = async(req: Request<{ id: string }>, res: Response
         const {id} = req.params
 
         if(!id) {
-            throw ApiError.BadRequest('Id is required')
+            return res.status(400).json({message: 'Id is required'})
         }
         const categories = await prisma.category.findUnique({where: {id}})
 
         if(!categories) {
-            throw ApiError.NotFound('Категория не найдена')
+            return res.status(404).json({message: 'Категория не найдена'})
         }
         return res.status(200).json({data:{categories}})
 
     } catch (e) {
-        throw ApiError.Internal('Server error')
+        return res.status(500).json({message: 'Server error'})
     }
 
 }
@@ -39,7 +39,7 @@ export const createCategory = async(req: Request, res: Response) => {
         const {name, slug, description} = req.body
         const imageUrl = req.file?.buffer
         if(!imageUrl) {
-            throw ApiError.BadRequest('Image is required')
+            return res.status(400).json({message: 'Image is required'})
         }
 
         const image = await uploadImage(imageUrl, 'categories')
@@ -52,7 +52,7 @@ export const createCategory = async(req: Request, res: Response) => {
         return res.status(201).json({data:{categories}})
 
     } catch (e) {
-        throw ApiError.Internal('Server error')
+        return res.status(500).json({message: 'Server error'})
     }
 }
 type MulterRequest = Request & {
@@ -70,7 +70,7 @@ export const updateCategory = async(req: MulterRequest, res: Response) => {
         const {id} = req.params
 
         if(typeof id !== 'string') {
-            throw ApiError.BadRequest('Id is required')
+            return res.status(400).json({message: 'Id is required'})
         }
         const {name, slug, description} = req.body
         const imageUrl = req.file?.buffer
@@ -99,6 +99,6 @@ export const updateCategory = async(req: MulterRequest, res: Response) => {
         
         const categories = await prisma.category.update({where: {id}, data: data})
     } catch (e) {
-        throw ApiError.Internal('Server error')
+        return res.status(500).json({message: 'Server error', error: e})
     }
 }

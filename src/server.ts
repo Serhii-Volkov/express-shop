@@ -9,6 +9,7 @@ import logger from './config/logger.config'
 import { errorMiddleware } from "./middleware/error.middleware";
 import AvatarRoutes from "@src/modules/avatar/routes";
 import Categories from '@src/modules/categories/categories.router'
+import OtpRoutes from '@src/modules/otp/otp.router'
 
 
 const app = express();
@@ -31,6 +32,7 @@ app.use(errorMiddleware)
 app.use('/auth' ,AuthRoutes)
 app.use('/avatar' ,AvatarRoutes)
 app.use('/category',Categories )
+app.use('/otp', OtpRoutes)
 
 
 app.listen(PORT, () => {

@@ -38,6 +38,7 @@ model RefreshToken {
   token        String @unique
   userId       String @map("user_id")
   user         User  @relation(fields: [userId], references: [id], onDelete: Cascade)
+  isUsed        Boolean @default(false) @map("is_used")
 
   createdAt    DateTime      @default(now())
   updatedAt    DateTime      @updatedAt
@@ -49,7 +50,7 @@ model Otp {
   id           String @id @default(uuid())
   userId       String @map("user_id") @unique()
   user         User  @relation(fields: [userId], references: [id], onDelete: Cascade)
-  cell         String
+  aim        String
   details      String?
   otp          String
   expiresAt    DateTime

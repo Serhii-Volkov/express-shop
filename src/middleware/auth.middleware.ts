@@ -2,7 +2,7 @@ import { Response, Request, NextFunction } from "express"
 import { ApiError } from "../error/api.error"
 import { verifyAccessToken } from "../utils/jwt"
 import {prisma} from '../lib/prisma'
-import {AuthenticatedRequest} from '../modules/auth/types/auth.type'
+import {AuthenticatedRequest} from '@src/types/auth.type'
 
 export const authenticate = async(req: Request, res:Response, next: NextFunction) => {
     try{
@@ -30,4 +30,19 @@ export const authenticate = async(req: Request, res:Response, next: NextFunction
         
     }
    
+}
+
+export const getUserIdFromCookie = (req: Request, res:Response, next: NextFunction) => {
+    try{
+        const userId = req.cookies.userId
+        if(!userId || typeof userId !== 'string') {
+        throw ApiError.Unauthorized('User not registered')
+        }
+        (req as AuthenticatedRequest).userId = userId
+        next()
+    } catch (e) {
+        next(e)
+        
+    }
+    
 }

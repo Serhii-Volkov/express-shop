@@ -45,6 +45,8 @@ export const generateRefreshToken = (userId: string): string => {
     return jwt.sign({ sub: userId }, getRefreshSecret(), { expiresIn: expiresIn as SignOptions['expiresIn'] })
 }
 
+
+
 export const verifyAccessToken = (token: string) => {
     return jwt.verify(token, getAccessSecret()) as AccessTokenPayload
 }
@@ -52,3 +54,4 @@ export const verifyAccessToken = (token: string) => {
 export const verifyRefreshToken = (token: string)  => {
     return jwt.verify(token, getRefreshSecret())
 }
+
