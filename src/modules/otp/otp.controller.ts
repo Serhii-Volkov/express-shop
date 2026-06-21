@@ -4,6 +4,9 @@ import bcrypt from "bcryptjs";
 import { ApiError } from "../../error/api.error";
 import { AuthenticatedRequest } from "@src/types/auth.type";
 import { generateOtp, sendOtp } from "./otp.utils";
+import { generateAccessToken, generateRefreshToken } from "@src/utils/jwt";
+import { setAuthCookies } from "@src/utils/cookie";
+import {clearUserIdCookie} from "@src/utils/cookie";
 
 
 export const verifyOtp = async(req: AuthenticatedRequest, res: Response) => {
@@ -27,10 +30,16 @@ export const verifyOtp = async(req: AuthenticatedRequest, res: Response) => {
             return res.status(400).json({message: 'Невалидный OTP код'})
         }
 
-        await prisma.user.update({where: {id: userId}, data: {
+        const user = await prisma.user.update({where: {id: userId}, data: {
             isVerified: true
         }})
 
+        console.log('user', user)
+        clearUserIdCookie(res)
+        const accessToken = generateAccessToken({sub: user.id, email: user.email, role: user.role})
+        const refreshToken = generateRefreshToken(user.id)
+        
+        setAuthCookies(res, accessToken, refreshToken)
        return res.status(200).json({message: "Email validate", success: true})
 
     } catch (e) {
@@ -50,15 +59,17 @@ export const resendOtp = async(req: AuthenticatedRequest, res: Response) => {
 
         await prisma.otp.deleteMany({where: {userId}})
 
+        const otpToken = generateOtp()
+
         const otpRecord = await prisma.otp.create({data: {
            userId: userId as string,
            aim: 'Verify email',    
            details: 'Email confirmation for website registration.',
-           otp: await bcrypt.hash(generateOtp(), 10),
+           otp: await bcrypt.hash(otpToken, 10),
            expiresAt: new Date(Date.now() + 10 * 60 * 1000) // 10 minutes from now
         }})
 
-        await sendOtp(user.email, otpRecord.aim, otpRecord.otp)
+        await sendOtp(user.email, otpRecord.aim, otpToken)
 
        return res.status(200).json({message: "OTP code resent", success: true})
     } catch (e) {

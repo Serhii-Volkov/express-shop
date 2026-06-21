@@ -27,7 +27,7 @@ const getRefreshCookieOptions = () => {
     }
 }
 
-const getUserIdCookieOptions = () => {
+ const getUserIdCookieOptions = () => {
     const isProd = process.env.NODE_ENV === 'production'
 
     return {
@@ -71,4 +71,14 @@ export const clearAuthCookies = (res: Response) => {
 
     res.clearCookie(accessCookieName, getAccessCookieOptions())
     res.clearCookie(refreshCookieName, getRefreshCookieOptions())
+}
+
+export const clearUserIdCookie = (res: Response) => {
+    const cookieName = process.env.USER_ID_COOKIE_NAME
+
+    if(!cookieName) {
+        throw new Error('USER_ID_COOKIE_NAME is not set')
+    }
+
+    res.clearCookie(cookieName, getUserIdCookieOptions())
 }

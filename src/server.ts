@@ -10,37 +10,48 @@ import { errorMiddleware } from "./middleware/error.middleware";
 import AvatarRoutes from "@src/modules/avatar/routes";
 import Categories from '@src/modules/categories/categories.router'
 import OtpRoutes from '@src/modules/otp/otp.router'
+import {Request, Response, NextFunction} from 'express'
+import '@src/config/sentry.config'
+import * as Sentry from "@sentry/node";
 
 
 const app = express();
-const PORT = process.env.PORT || 3005;
+const PORT = process.env.PORT || 5000;
 
-app.use(helmet())
+
+app.use(helmet());
 app.use(cors({
-  origin: process.env.NODE_ENV === 'production' ? process.env.CLIENT_URL : '*',
-  credentials: true, // Важно для работы с cookies
-  optionsSuccessStatus: 200 // Для совместимости со старыми браузерами
-}))
+  origin: process.env.NODE_ENV === 'production'
+    ? process.env.CLIENT_URL
+    : '*',
+  credentials: true,
+}));
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
-// последняя мидлвара для обработки ошибок
-app.use(errorMiddleware)
+// routes
+app.use('/auth', AuthRoutes);
+app.use('/avatar', AvatarRoutes);
+app.use('/category', Categories);
+app.use('/otp', OtpRoutes);
+
+// Sentry error handler (IMPORTANT)
+Sentry.setupExpressErrorHandler(app);
+
+// your error handler LAST
+app.use(errorMiddleware);
 
 
-app.use('/auth' ,AuthRoutes)
-app.use('/avatar' ,AvatarRoutes)
-app.use('/category',Categories )
-app.use('/otp', OtpRoutes)
+ //Sentry.metrics.count('button_click', 1); //для 
+ //Sentry.metrics.gauge('page_load_time', 150);
+ //Sentry.metrics.distribution('response_time', 200);
+ //Sentry.logger.info('server work')
+
 
 
 app.listen(PORT, () => {
-    logger.info(`Server running on http://localhost:${PORT}`);
-});
-console.log({
-  host: process.env.SMTP_HOST,
-  port: process.env.SMTP_PORT,
-  user: process.env.SMTP_USER,
-  pass: process.env.SMTP_PASS?.length,
+  Sentry.logger.info('Server work')
+  logger.info(`Server running on http://localhost:${PORT}`);
 });

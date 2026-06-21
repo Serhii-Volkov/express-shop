@@ -36,18 +36,20 @@ export const getCategoryById = async(req: Request<{ id: string }>, res: Response
 
 export const createCategory = async(req: Request, res: Response) => {
     try{
-        const {name, slug, description} = req.body
-        const imageUrl = req.file?.buffer
-        if(!imageUrl) {
-            return res.status(400).json({message: 'Image is required'})
+        const {name, slug, description, parentId} = req.body
+        let image = null;
+
+        if (req.file) {
+            image = await uploadImage(req.file.buffer, 'categories');
         }
 
-        const image = await uploadImage(imageUrl, 'categories')
+        
 
 
         const categories= await prisma.category.create({data: {
-            name, slug, description, imageUrl: image
+            name, slug, description, imageUrl: image, parentId
         }})
+        
 
         return res.status(201).json({data:{categories}})
 
@@ -58,47 +60,44 @@ export const createCategory = async(req: Request, res: Response) => {
 type MulterRequest = Request & {
   file?: File;
 };
-export const updateCategory = async(req: MulterRequest, res: Response) => {
-    try{
-        interface Data  {
-            name?: string,
-            slug?: string, 
-            description?: string,
-            imageUrl?: string
 
-        }
-        const {id} = req.params
+export const updateCategory = async (req: MulterRequest, res: Response) => {
+    try {
+        const { id } = req.params as {id: string}
 
-        if(typeof id !== 'string') {
-            return res.status(400).json({message: 'Id is required'})
-        }
-        const {name, slug, description} = req.body
-        const imageUrl = req.file?.buffer
-
-        const data: Data = {}
-        
-        if(name !== undefined) {
-            data.name = name
+        if (!id) {
+            return res.status(400).json({ message: 'Id is required' });
         }
 
-        if(slug !== undefined) {
-            data.slug = slug
+        const { name, slug, description, parentId } = req.body;
+
+        const data: any = {};
+
+        if (name) data.name = name;
+        if (slug) data.slug = slug;
+        if (description) data.description = description;
+        if(parentId) data.parentId = parentId
+
+        if (req.file) {
+            const imageUrl = await uploadImage(req.file.buffer, 'categories');
+            data.imageUrl = imageUrl;
         }
 
-        if(description !== undefined) {
-            data.description = description
+        if (Object.keys(data).length === 0) {
+            return res.status(400).json({
+                message: 'No fields to update'
+            });
         }
 
-        if(imageUrl !== undefined) {
-            const image = await uploadImage(imageUrl, 'categories')
-            data.imageUrl = image
-        }
+        const category = await prisma.category.update({
+            where: { id },
+            data
+        });
 
-     
-        
-        
-        const categories = await prisma.category.update({where: {id}, data: data})
+        return res.status(200).json({ data: category });
+
     } catch (e) {
-        return res.status(500).json({message: 'Server error', error: e})
+        console.log(e);
+        return res.status(500).json({ message: 'Server error' });
     }
-}
+};

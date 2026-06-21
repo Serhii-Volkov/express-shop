@@ -1,0 +1,27 @@
+2026-06-21 11:16:50:1650 [31merror[39m: [31m{[39m
+[31m  method: 'POST',[39m
+[31m  path: '/category',[39m
+[31m  error: SyntaxError: Expected double-quoted property name in JSON at position 113[39m
+[31m      at JSON.parse (<anonymous>)[39m
+[31m      at parse (C:\Users\Vokoo\Desktop\express-shop-main\node_modules\body-parser\lib\types\json.js:91:21)[39m
+[31m      at C:\Users\Vokoo\Desktop\express-shop-main\node_modules\body-parser\lib\read.js:162:18[39m
+[31m      at AsyncResource.runInAsyncScope (node:async_hooks:206:9)[39m
+[31m      at invokeCallback (C:\Users\Vokoo\Desktop\express-shop-main\node_modules\raw-body\index.js:238:16)[39m
+[31m      at done (C:\Users\Vokoo\Desktop\express-shop-main\node_modules\raw-body\index.js:227:7)[39m
+[31m      at IncomingMessage.onEnd (C:\Users\Vokoo\Desktop\express-shop-main\node_modules\raw-body\index.js:287:7)[39m
+[31m      at IncomingMessage.emit (node:events:524:28)[39m
+[31m      at endReadableNT (node:internal/streams/readable:1698:12)[39m
+[31m      at processTicksAndRejections (node:internal/process/task_queues:82:21) {[39m
+[31m    expose: true,[39m
+[31m    statusCode: 400,[39m
+[31m    status: 400,[39m
+[31m    body: '{\r\n' +[39m
+[31m      '  "name": "Laptop",\r\n' +[39m
+[31m      '  "slug": "laptops",\r\n' +[39m
+[31m      '  "description": "Devices, gadgets and electronic accessories",\r\n' +[39m
+[31m      '\r\n' +[39m
+[31m      '}',[39m
+[31m    type: 'entity.parse.failed'[39m
+[31m  }[39m
+[31m}[39m
+2026-06-21 18:35:20:3520 [31merror[39m: [31mError during registration: Error[39m

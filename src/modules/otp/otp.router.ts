@@ -5,6 +5,6 @@ import { getUserIdFromCookie } from "@src/middleware/auth.middleware";
 const route = Router()
 
 route.post('/verify', getUserIdFromCookie, verifyOtp)
-route.post('resend-otp', getUserIdFromCookie, resendOtp) 
+route.get('/resend-otp', getUserIdFromCookie, resendOtp) 
 
 export default route

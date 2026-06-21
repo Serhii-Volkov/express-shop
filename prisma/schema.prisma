@@ -50,7 +50,7 @@ model Otp {
   id           String @id @default(uuid())
   userId       String @map("user_id") @unique()
   user         User  @relation(fields: [userId], references: [id], onDelete: Cascade)
-  aim        String
+  aim          String
   details      String?
   otp          String
   expiresAt    DateTime
@@ -65,7 +65,9 @@ model Category {
   slug         String   @unique
   description  String?
   imageUrl     String?
-
+  parentId    String?
+  parent      Category?  @relation("SubCategories", fields: [parentId], references: [id])
+  children    Category[] @relation("SubCategories")
 
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
